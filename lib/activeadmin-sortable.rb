@@ -26,7 +26,14 @@ module ActiveAdmin
           sort_url, query_params = resource_path(resource).split '?', 2
           sort_url += "/sort"
           sort_url += "?" + query_params if query_params
-          content_tag :span, HANDLE, :class => 'handle', 'data-sort-url' => sort_url
+          order_by, order_dir = params[:order].split '_', 2
+          position = resource.send(order_by.to_sym)
+          content_tag :span,
+                      HANDLE,
+                      :class => 'handle',
+                      'data-sort-url' => sort_url,
+                      'data-position' => position,
+                      'data-order' => order_dir
         end
       end
     end
